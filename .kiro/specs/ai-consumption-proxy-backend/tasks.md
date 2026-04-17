@@ -70,14 +70,14 @@ This plan implements a minimal viable Spring Boot backend with simulated AI text
     - Return 429 with retryAfter if exceeded, otherwise approve
     - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5_
   
-  - [ ] 5.3 Implement QuotaValidator
+  - [x] 5.3 Implement QuotaValidator
     - Check user's plan from PlanRepository
     - Check monthly token usage from UsageRepository
     - Enforce plan quotas: FREE=50K, PRO=500K, ENTERPRISE=unlimited
     - Deduct tokens if sufficient, return 402 if insufficient
     - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 4.6_
   
-  - [ ] 5.4 Implement RequestOrchestrator
+  - [x] 5.4 Implement RequestOrchestrator
     - Chain validators: RateLimitValidator → QuotaValidator → TextGenerationService
     - Short-circuit on first rejection
     - Record usage in HistoryRepository on success
