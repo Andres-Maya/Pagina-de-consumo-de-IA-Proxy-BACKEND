@@ -42,78 +42,78 @@ This plan implements a minimal viable Spring Boot backend with simulated AI text
     - Methods: getPlan, updatePlan
     - _Requirements: 9.2, 9.3_
   
-  - [-] 3.3 Create HistoryRepository with ConcurrentHashMap
+  - [x] 3.3 Create HistoryRepository with ConcurrentHashMap
     - Store daily usage by user and date
     - Methods: recordDailyUsage, getDailyUsage (7 days)
     - _Requirements: 8.2, 8.3, 8.4_
 
 - [ ] 4. Implement text generation service
-  - [~] 4.1 Create TextGenerationService interface
+  - [x] 4.1 Create TextGenerationService interface
     - Define generate(GenerationRequest) method
     - _Requirements: 1.1, 1.2, 1.3_
   
-  - [~] 4.2 Implement SimulatedGenerator
+  - [x] 4.2 Implement SimulatedGenerator
     - Sleep for 1200ms to simulate processing
     - Return random predefined text response
     - Calculate tokensUsed (random 100-500)
     - _Requirements: 2.1, 2.2, 2.3_
 
 - [ ] 5. Implement validation chain
-  - [~] 5.1 Create RequestValidator interface
+  - [x] 5.1 Create RequestValidator interface
     - Define validate(userId, request) method returning ValidationResult
     - _Requirements: 5.1, 5.2, 5.3_
   
-  - [~] 5.2 Implement RateLimitValidator
+  - [x] 5.2 Implement RateLimitValidator
     - Check user's plan from PlanRepository
     - Check current minute's request count from UsageRepository
     - Enforce plan limits: FREE=10, PRO=60, ENTERPRISE=unlimited
     - Return 429 with retryAfter if exceeded, otherwise approve
     - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5_
   
-  - [~] 5.3 Implement QuotaValidator
+  - [ ] 5.3 Implement QuotaValidator
     - Check user's plan from PlanRepository
     - Check monthly token usage from UsageRepository
     - Enforce plan quotas: FREE=50K, PRO=500K, ENTERPRISE=unlimited
     - Deduct tokens if sufficient, return 402 if insufficient
     - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 4.6_
   
-  - [~] 5.4 Implement RequestOrchestrator
+  - [ ] 5.4 Implement RequestOrchestrator
     - Chain validators: RateLimitValidator → QuotaValidator → TextGenerationService
     - Short-circuit on first rejection
     - Record usage in HistoryRepository on success
     - _Requirements: 5.1, 5.2, 5.3, 5.4_
 
 - [ ] 6. Implement REST controllers
-  - [~] 6.1 Create GenerationController
+  - [ ] 6.1 Create GenerationController
     - POST /api/ai/generate endpoint
     - Extract User-Id from header
     - Call RequestOrchestrator
     - Return 200/429/402 based on result
     - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5_
   
-  - [~] 6.2 Create QuotaController
+  - [ ] 6.2 Create QuotaController
     - GET /api/quota/status endpoint (return QuotaStatus)
     - GET /api/quota/history endpoint (return 7-day DailyUsage list)
     - POST /api/quota/upgrade endpoint (call PlanManager)
     - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.5, 8.1, 8.2, 8.3, 8.4, 9.1_
 
 - [ ] 7. Implement supporting services
-  - [~] 7.1 Create UsageTracker
+  - [ ] 7.1 Create UsageTracker
     - recordUsage(userId, tokensUsed) - updates HistoryRepository
     - getHistory(userId, 7) - retrieves 7-day history with zero-fill
     - _Requirements: 8.2, 8.3, 8.4_
   
-  - [~] 7.2 Create PlanManager
+  - [ ] 7.2 Create PlanManager
     - upgradePlan(userId) - FREE→PRO→ENTERPRISE, reject at max
     - getCurrentPlan(userId) - retrieve from PlanRepository
     - _Requirements: 9.2, 9.3, 9.4, 9.5_
   
-  - [~] 7.3 Create LimitResetter with @Scheduled tasks
+  - [ ] 7.3 Create LimitResetter with @Scheduled tasks
     - @Scheduled(cron = "0 * * * * *") resetRateLimits() - every minute
     - @Scheduled(cron = "0 0 0 1 * *") resetMonthlyQuotas() - first of month
     - _Requirements: 10.1, 10.2, 10.3, 11.1, 11.2, 11.3_
 
-- [~] 8. Checkpoint - Verify core functionality
+- [ ] 8. Checkpoint - Verify core functionality
   - Run application locally with `./mvnw spring-boot:run`
   - Test POST /api/ai/generate with curl (should return 200 with generated text)
   - Test GET /api/quota/status (should return quota info)
@@ -139,7 +139,7 @@ This plan implements a minimal viable Spring Boot backend with simulated AI text
     - Verify validators invoked in correct order: RateLimit → Quota → Generator
 
 - [ ] 10. Create deployment configuration
-  - [~] 10.1 Create Dockerfile
+  - [ ] 10.1 Create Dockerfile
     - Multi-stage build with Maven
     - Use eclipse-temurin:17-jdk-alpine for build
     - Use eclipse-temurin:17-jre-alpine for runtime
@@ -147,13 +147,13 @@ This plan implements a minimal viable Spring Boot backend with simulated AI text
     - ENTRYPOINT with -Dserver.port=${PORT:-8080}
     - _Requirements: 12.1, 12.3_
   
-  - [~] 10.2 Create render.yaml
+  - [ ] 10.2 Create render.yaml
     - Configure web service with docker environment
     - Set healthCheckPath to /actuator/health
     - Configure environment variables: SPRING_PROFILES_ACTIVE=production
     - _Requirements: 12.4_
 
-- [~] 11. Final checkpoint - Verify deployment readiness
+- [ ] 11. Final checkpoint - Verify deployment readiness
   - Build Docker image: `docker build -t ai-proxy .`
   - Run Docker container: `docker run -p 8080:8080 -e PORT=8080 ai-proxy`
   - Test health endpoint: `curl http://localhost:8080/actuator/health`

@@ -4,17 +4,11 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * Request model for AI text generation.
  * Contains the prompt and generation parameters.
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class GenerationRequest {
     
     @NotBlank(message = "Prompt cannot be blank")
@@ -29,4 +23,37 @@ public class GenerationRequest {
     @Min(value = 0, message = "Temperature must be between 0 and 2")
     @Max(value = 2, message = "Temperature must be between 0 and 2")
     private Double temperature;
+    
+    public GenerationRequest() {
+    }
+    
+    public GenerationRequest(String prompt, Integer maxTokens, Double temperature) {
+        this.prompt = prompt;
+        this.maxTokens = maxTokens;
+        this.temperature = temperature;
+    }
+    
+    public String getPrompt() {
+        return prompt;
+    }
+    
+    public void setPrompt(String prompt) {
+        this.prompt = prompt;
+    }
+    
+    public Integer getMaxTokens() {
+        return maxTokens;
+    }
+    
+    public void setMaxTokens(Integer maxTokens) {
+        this.maxTokens = maxTokens;
+    }
+    
+    public Double getTemperature() {
+        return temperature;
+    }
+    
+    public void setTemperature(Double temperature) {
+        this.temperature = temperature;
+    }
 }
