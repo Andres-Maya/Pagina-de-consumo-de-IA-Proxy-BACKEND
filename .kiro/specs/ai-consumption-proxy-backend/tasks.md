@@ -25,24 +25,24 @@ This plan implements a minimal viable Spring Boot backend with simulated AI text
     - PlanDetails (plan, requestsPerMinute, monthlyTokens)
     - _Requirements: 1.1, 6.1, 7.2, 7.3, 7.4, 7.5, 8.3, 9.5_
   
-  - [-] 2.2 Create domain models
+  - [x] 2.2 Create domain models
     - SubscriptionPlan enum (FREE=10/50K, PRO=60/500K, ENTERPRISE=unlimited)
     - ValidationResult (approved, rejectionReason, retryAfterSeconds)
     - _Requirements: 3.1, 3.2, 3.3, 4.1, 4.2, 4.3_
 
 - [ ] 3. Implement in-memory repositories
-  - [~] 3.1 Create UsageRepository with ConcurrentHashMap
+  - [x] 3.1 Create UsageRepository with ConcurrentHashMap
     - Track request counts per user (rate limiting)
     - Track monthly token usage per user (quota)
     - Methods: incrementRequestCount, getRequestCount, resetRequestCounts, addTokenUsage, getMonthlyTokenUsage, resetMonthlyUsage
     - _Requirements: 3.1, 3.2, 3.3, 4.4, 10.2, 11.2_
   
-  - [~] 3.2 Create PlanRepository with ConcurrentHashMap
+  - [x] 3.2 Create PlanRepository with ConcurrentHashMap
     - Store user subscription plans (default all users to FREE)
     - Methods: getPlan, updatePlan
     - _Requirements: 9.2, 9.3_
   
-  - [~] 3.3 Create HistoryRepository with ConcurrentHashMap
+  - [-] 3.3 Create HistoryRepository with ConcurrentHashMap
     - Store daily usage by user and date
     - Methods: recordDailyUsage, getDailyUsage (7 days)
     - _Requirements: 8.2, 8.3, 8.4_

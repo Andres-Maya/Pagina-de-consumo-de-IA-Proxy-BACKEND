@@ -1,18 +1,9 @@
 package com.aiproxy.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 /**
  * Result of a validation operation in the request chain.
  * Used by validators to communicate approval or rejection decisions.
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class ValidationResult {
     
     private boolean approved;
@@ -20,6 +11,39 @@ public class ValidationResult {
     private String rejectionReason;
     
     private Integer retryAfterSeconds;
+    
+    public ValidationResult() {
+    }
+    
+    public ValidationResult(boolean approved, String rejectionReason, Integer retryAfterSeconds) {
+        this.approved = approved;
+        this.rejectionReason = rejectionReason;
+        this.retryAfterSeconds = retryAfterSeconds;
+    }
+    
+    public boolean isApproved() {
+        return approved;
+    }
+    
+    public void setApproved(boolean approved) {
+        this.approved = approved;
+    }
+    
+    public String getRejectionReason() {
+        return rejectionReason;
+    }
+    
+    public void setRejectionReason(String rejectionReason) {
+        this.rejectionReason = rejectionReason;
+    }
+    
+    public Integer getRetryAfterSeconds() {
+        return retryAfterSeconds;
+    }
+    
+    public void setRetryAfterSeconds(Integer retryAfterSeconds) {
+        this.retryAfterSeconds = retryAfterSeconds;
+    }
     
     /**
      * Creates an approved validation result.
